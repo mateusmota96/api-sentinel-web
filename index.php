@@ -19,10 +19,14 @@ if (in_array($uri[1], $supported_api)){
         $strMethodName = $uri[2] . "Error";
         $objFeedController->{$strMethodName}();
     }
-    else {
-    $objFeedController = new UserController();
-    $strMethodName = $uri[2] . "Action";
-    $objFeedController->{$strMethodName}();
+    elseif ($uri[1] == 'domain') {
+        $objFeedController = new UserController();
+        $strMethodName = $uri[2] . "Action";
+        $objFeedController->{$strMethodName}();
+    } elseif ($uri[1] == 'notify') {
+        $objFeedController = new UserController();
+        $strMethodName = $uri[2] . "Send";
+        $objFeedController->{$strMethodName}();  
     }
 }
 

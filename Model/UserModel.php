@@ -62,7 +62,6 @@ class UserModel extends Database
     }    
     public function setError($url, $http_code, $status)
     {
-    echo "To aqui";
     return $this->update("UPDATE monitor SET error = 1, notify = 1, http_code = $http_code, status = $status WHERE url = '$url' ");
     }  
 }
