@@ -180,13 +180,42 @@ class UserController extends BaseController
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-        echo "Cheguei no set Error";
         $url = $this->getPostQueryStringParams("url");
         $status = $this->getPostQueryStringParams("status");
         $http_code = $this->getPostQueryStringParams("http_code");
         if (strtoupper($requestMethod) == 'POST') {
             $userModel = new UserModel();
             $userModel->setError($url, $http_code, $status);  
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+ 
+        // send output
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $responseData,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    } 
+    /**
+    * "unset send_notify -> send_notify = 0"
+    */
+    public function setError()
+    {
+        $strErrorDesc = '';
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        $url = $this->getPostQueryStringParams("url");
+        $status = $this->getPostQueryStringParams("status");
+        $http_code = $this->getPostQueryStringParams("http_code");
+        if (strtoupper($requestMethod) == 'POST') {
+            $userModel = new UserModel();
+            $userModel->unsetError($url, $http_code, $status);  
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
