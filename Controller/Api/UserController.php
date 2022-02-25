@@ -206,7 +206,7 @@ class UserController extends BaseController
     /**
     * "unset send_notify -> send_notify = 0"
     */
-    public function setError()
+    public function unsetError()
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
