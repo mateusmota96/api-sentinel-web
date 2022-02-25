@@ -49,7 +49,7 @@ class Database
             throw New Exception( $e->getMessage() );
         }   
     }
-    public function updateNotify($query, $params = [] )
+    public function update($query, $params = [] )
     {
         try {
             $stmt = $this->executeStatement($query , $params);

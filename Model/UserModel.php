@@ -30,23 +30,27 @@ class UserModel extends Database
     }
     public function setSend($id)
     {
-    return $this->updateNotify("UPDATE monitor SET send_notify = '1' WHERE id = ?", ["i", $id]);
+    return $this->update("UPDATE monitor SET send_notify = '1' WHERE id = ?", ["i", $id]);
     }
     public function unsetSend($id)
     {
-    return $this->updateNotify("UPDATE monitor SET send_notify = '0' WHERE id = ?" , ["i", $id]);
+    return $this->update("UPDATE monitor SET send_notify = '0' WHERE id = ?" , ["i", $id]);
     }
     public function setNotify($id)
     {
-    return $this->updateNotify("UPDATE monitor SET notify = '1' WHERE id = ?" , ["i", $id]);
+    return $this->update("UPDATE monitor SET notify = '1' WHERE id = ?" , ["i", $id]);
     }
     public function unsetNotify($id)
     {
-    return $this->updateNotify("UPDATE monitor SET notify = '0' WHERE id = ?" , ["i", $id]);
+    return $this->update("UPDATE monitor SET notify = '0' WHERE id = ?" , ["i", $id]);
     }
     public function getBYID($limit, $client, $id)
     {
     return $this->select("SELECT * FROM monitor WHERE client = '$client' AND id = '$id' ORDER BY id ASC LIMIT ?", ["i", $limit]);
+    }
+    public function getBYURL($url)
+    {
+    return $this->select("SELECT * FROM monitor WHERE url = '$url' ");
     }
     public function getNotify($client, $id)
     {
@@ -56,6 +60,11 @@ class UserModel extends Database
     {
     return $this->select("SELECT http_code FROM monitor WHERE client = '$client' AND id = '$id' ");
     }    
+    public function setError($url, $http_code, $status)
+    {
+    echo "To aqui";
+    return $this->update("UPDATE monitor SET error = 1, notify = 1, http_code = $http_code, status = $status WHERE url = '$url' ");
+    }  
 }
 
 ?>
