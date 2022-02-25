@@ -19,7 +19,7 @@ if (in_array($uri[1], $supported_api)){
         $strMethodName = $uri[2] . "Error";
         $objFeedController->{$strMethodName}();
     }
-    elseif ($uri[1] == 'domain') {
+    elseif ($uri[1] == 'domain' || $uri[1] == 'delnotify') {
         $objFeedController = new UserController();
         $strMethodName = $uri[2] . "Action";
         $objFeedController->{$strMethodName}();
