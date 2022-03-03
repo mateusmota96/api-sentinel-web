@@ -4,9 +4,8 @@ require __DIR__ . "/inc/bootstrap.php";
  
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
-$supported_api = array('domain', 'notify', 'delnotify', 'error' );
 
-if ((isset($uri[1]) && !in_array($uri[1], $supported_api)) || !isset($uri[2])) {
+if ((isset($uri[1]) && !in_array($uri[1], supported_api)) || !isset($uri[2])) {
     header("HTTP/1.1 404 Not Found");
     exit();
 } 
@@ -20,7 +19,6 @@ if (proxy_reverse == True) {
 } elseif (proxy_reverse == False){
 	$IP = $_SERVER['REMOTE_ADDR'];
 }
-
 if (!in_array($IP, allowed_ips)){
     header("HTTP/1.1 418 I'm a Teapot");
     require_once PROJECT_ROOT_PATH . "/Model/Error418.php";
@@ -28,7 +26,7 @@ if (!in_array($IP, allowed_ips)){
 }
 
 
-if (in_array($uri[1], $supported_api)){
+if (in_array($uri[1], supported_api)){
     if ($uri[1] == 'error'){
         $objFeedController = new UserController();
         $strMethodName = $uri[2] . "Error";

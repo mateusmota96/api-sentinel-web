@@ -8,13 +8,13 @@ class UserModel extends Database
     {
     return $this->select("SELECT * FROM monitor WHERE client = '$client' ORDER BY id ASC LIMIT ?", ["i", $limit]);
     }
-    public function getError($limit, $client)
+    public function getError()
     {
-    return $this->select("SELECT * FROM monitor WHERE client = '$client' AND error = 1 ORDER BY id ASC LIMIT ?", ["i", $limit]);
+    return $this->select("SELECT * FROM monitor WHERE error = 1");
     }
-    public function getOK($limit, $client)
+    public function getOK()
     {
-    return $this->select("SELECT * FROM monitor WHERE client = '$client' AND error = 0 ORDER BY id ASC LIMIT ?", ["i", $limit]);
+    return $this->select("SELECT * FROM monitor WHERE error = 0");
     }
     public function getHTTP($limit, $client, $http_code)
     {

@@ -24,7 +24,7 @@ class UserController extends BaseController
                     $intLimit = 10;
                 }
                 if ($status_code == "erro" && $http_code == null && $id == null){
-                    $arrUsers = $userModel->getError($intLimit, $client); 
+                    $arrUsers = $userModel->getError(); 
                 } elseif ($status_code == "ok" && $http_code == null && $id == null) {
                     $arrUsers = $userModel->getOK($intLimit, $client); 
                 } elseif(isset($http_code) && $status_code == null && $id == null){
