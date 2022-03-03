@@ -26,7 +26,7 @@ class UserController extends BaseController
                 if ($status_code == "erro" && $http_code == null && $id == null){
                     $arrUsers = $userModel->getError(); 
                 } elseif ($status_code == "ok" && $http_code == null && $id == null) {
-                    $arrUsers = $userModel->getOK($intLimit, $client); 
+                    $arrUsers = $userModel->getOK(); 
                 } elseif(isset($http_code) && $status_code == null && $id == null){
                     $arrUsers = $userModel->getHTTP($intLimit, $client, $http_code);
                 } elseif(isset($http_code) && $status_code == "erro" && $id == null){
