@@ -33,7 +33,7 @@ class BaseController
         return $query["{$var}"];
     }
     /**
-     * Get querystring params.
+     * Get querystring params passed by post.
      * 
      * @return array
      */

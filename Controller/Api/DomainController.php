@@ -1,5 +1,5 @@
 <?php
-class UserController extends BaseController
+class DomainController extends BaseController
 {
     /**
      * "/user/list" Endpoint - Get list of users
@@ -17,7 +17,7 @@ class UserController extends BaseController
          
         if (strtoupper($requestMethod) == 'GET') {
             try {
-                $userModel = new UserModel(); 
+                $userModel = new DomainModel(); 
                 if (isset($limit) && $limit ){
                     $intLimit = $limit;
                 }else{
@@ -70,7 +70,7 @@ class UserController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->unsetNotify($id);            
         } else {
             $strErrorDesc = 'Method not supported';
@@ -98,7 +98,7 @@ class UserController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->setNotify($id);  
         } else {
             $strErrorDesc = 'Method not supported';
@@ -126,7 +126,7 @@ class UserController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->setSend($id);  
         } else {
             $strErrorDesc = 'Method not supported';
@@ -154,7 +154,7 @@ class UserController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->unsetSend($id);  
         } else {
             $strErrorDesc = 'Method not supported';
@@ -184,7 +184,7 @@ class UserController extends BaseController
         $status = $this->getPostQueryStringParams("status");
         $http_code = $this->getPostQueryStringParams("http_code");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->setError($url, $http_code, $status);  
         } else {
             $strErrorDesc = 'Method not supported';
@@ -214,7 +214,7 @@ class UserController extends BaseController
         $status = $this->getPostQueryStringParams("status");
         $http_code = $this->getPostQueryStringParams("http_code");
         if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new UserModel();
+            $userModel = new DomainModel();
             $userModel->unsetError($url, $http_code, $status);  
         } else {
             $strErrorDesc = 'Method not supported';
