@@ -8,5 +8,5 @@ define("supported_api", array('domain', 'notify', 'delnotify', 'error' ));
 
 // Security
 define("proxy_reverse", "True");
-define("allowed_ips", array('54.84.86.111', '34.204.221.167'));
+define("allowed_ips", array('54.84.86.111', '34.204.221.167', '172.31.8.248' , '179.187.82.43'));
 ?>
