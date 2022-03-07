@@ -2,7 +2,7 @@
 
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
  
-class UserModel extends Database
+class DomainModel extends Database
 {
     public function getDomain($limit, $client)
     {

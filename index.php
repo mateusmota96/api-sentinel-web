@@ -10,7 +10,7 @@ if ((isset($uri[1]) && !in_array($uri[1], supported_api)) || !isset($uri[2])) {
     exit();
 } 
 
-require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+require PROJECT_ROOT_PATH . "/Controller/Api/DomainController.php";
 
 
 # Allowed ips
@@ -28,16 +28,16 @@ if (!in_array($IP, allowed_ips)){
 
 if (in_array($uri[1], supported_api)){
     if ($uri[1] == 'error'){
-        $objFeedController = new UserController();
+        $objFeedController = new DomainController();
         $strMethodName = $uri[2] . "Error";
         $objFeedController->{$strMethodName}();
     }
     elseif ($uri[1] == 'domain' || $uri[1] == 'delnotify') {
-        $objFeedController = new UserController();
+        $objFeedController = new DomainController();
         $strMethodName = $uri[2] . "Action";
         $objFeedController->{$strMethodName}();
     } elseif ($uri[1] == 'notify') {
-        $objFeedController = new UserController();
+        $objFeedController = new DomainController();
         $strMethodName = $uri[2] . "Send";
         $objFeedController->{$strMethodName}();  
     }
