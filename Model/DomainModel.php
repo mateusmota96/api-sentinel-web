@@ -16,6 +16,10 @@ class DomainModel extends Database
     {
     return $this->select("SELECT * FROM monitor WHERE error = 0");
     }
+    public function getALL()
+    {
+    return $this->select("SELECT * FROM monitor");
+    }
     public function getHTTP($limit, $client, $http_code)
     {
     return $this->select("SELECT * FROM monitor WHERE client = '$client' AND http_code = '$http_code' ORDER BY id ASC LIMIT ?", ["i", $limit]);
@@ -28,21 +32,17 @@ class DomainModel extends Database
     {
     return $this->select("SELECT * FROM monitor WHERE client = '$client' AND error = 0 AND http_code = '$http_code' ORDER BY id ASC LIMIT ?", ["i", $limit]);
     }
-    public function setSend($id)
+    public function postSend($id)
     {
-    return $this->update("UPDATE monitor SET send_notify = '1' WHERE id = ?", ["i", $id]);
+    return $this->updateOne("UPDATE monitor SET notify = '0', send_notify = '1' WHERE id = ?", ["i", $id]);
     }
-    public function unsetSend($id)
+    public function delSend($id)
     {
-    return $this->update("UPDATE monitor SET send_notify = '0' WHERE id = ?" , ["i", $id]);
+    return $this->updateOne("UPDATE monitor SET send_notify = '0' WHERE id = ?" , ["i", $id]);
     }
     public function setNotify($id)
     {
     return $this->update("UPDATE monitor SET notify = '1' WHERE id = ?" , ["i", $id]);
-    }
-    public function unsetNotify($id)
-    {
-    return $this->update("UPDATE monitor SET notify = '0' WHERE id = ?" , ["i", $id]);
     }
     public function getBYID($limit, $client, $id)
     {
@@ -60,13 +60,17 @@ class DomainModel extends Database
     {
     return $this->select("SELECT http_code FROM monitor WHERE client = '$client' AND id = '$id' ");
     }    
+    public function getURL()
+    {
+    return $this->select("SELECT url FROM monitor");
+    }    
     public function setError($url, $http_code, $status)
     {
-    return $this->update("UPDATE monitor SET error = 1, notify = 1, http_code = $http_code, status = $status WHERE url = '$url' ");
+    return $this->update("UPDATE monitor SET error = '1', notify = '1', http_code = ?, status = ? WHERE url = ?", ["iss", array($http_code, $status, $url)]);
     }
     public function unsetError($url, $http_code, $status)
     {
-    return $this->update("UPDATE monitor SET error = 0, notify = 0, http_code = $http_code, status = $status WHERE url = '$url' ");
+    return $this->update("UPDATE monitor SET error = '0', notify = '0', http_code = ?, status = ? WHERE url = ?", ["iss", array($http_code, $status, $url)]);
     }  
 }
 

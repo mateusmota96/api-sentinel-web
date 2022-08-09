@@ -49,10 +49,60 @@ class Database
             throw New Exception( $e->getMessage() );
         }   
     }
+    public function executeUpdate($query = "" , $params = [])
+    {
+        try {
+            $stmt = $this->connection->prepare( $query );
+            if($stmt === false) {
+                throw New Exception("Unable to do prepared statement: " . $query);
+            }
+ 
+            if( $params ) {
+                $stmt->bind_param($params[0], ...$params[1]);
+            }
+ 
+            $stmt->execute();
+ 
+            return $stmt;
+        } catch(Exception $e) {
+            throw New Exception( $e->getMessage() );
+        }   
+    }
+    public function executeUpdateOne($query = "" , $params = [])
+    {
+        try {
+            $stmt = $this->connection->prepare( $query );
+            if($stmt === false) {
+                throw New Exception("Unable to do prepared statement: " . $query);
+            }
+ 
+            if( $params ) {
+                $stmt->bind_param($params[0], $params[1]);
+            }
+ 
+            $stmt->execute();
+ 
+            return $stmt;
+        } catch(Exception $e) {
+            throw New Exception( $e->getMessage() );
+        }   
+    }
+    public function updateOne($query, $params = [] )
+    {
+        try {
+            $stmt = $this->executeUpdateOne($query , $params);
+            $result = $stmt->affected_rows;   
+            $stmt->close();
+            return $result;
+        } catch(Exception $e) {
+            throw New Exception( $e->getMessage() );
+        }
+        return false;
+    }
     public function update($query, $params = [] )
     {
         try {
-            $stmt = $this->executeStatement($query , $params);
+            $stmt = $this->executeUpdate($query , $params);
             $result = $stmt->affected_rows;   
             $stmt->close();
             return $result;

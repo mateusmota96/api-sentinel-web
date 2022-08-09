@@ -27,6 +27,10 @@ class DomainController extends BaseController
                     $arrUsers = $userModel->getError(); 
                 } elseif ($status_code == "ok" && $http_code == null && $id == null) {
                     $arrUsers = $userModel->getOK(); 
+                } elseif ($status_code == "all" && $http_code == null && $id == null) {
+                    $arrUsers = $userModel->getALL(); 
+                } elseif ($status_code == "url" && $http_code == null && $id == null) {
+                    $arrUsers = $userModel->getURL(); 
                 } elseif(isset($http_code) && $status_code == null && $id == null){
                     $arrUsers = $userModel->getHTTP($intLimit, $client, $http_code);
                 } elseif(isset($http_code) && $status_code == "erro" && $id == null){
@@ -62,16 +66,16 @@ class DomainController extends BaseController
         }
     }
     /**
-     * "unset notify -> notify = 0"
-     */
-    public function postAction()
+    * "unset notify and set send_notify -> notify = 0 and send_notify = 1"
+    */
+    public function postSend()
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
             $userModel = new DomainModel();
-            $userModel->unsetNotify($id);            
+            $userModel->postSend($id);            
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
@@ -90,72 +94,16 @@ class DomainController extends BaseController
         }
     } 
     /**
-    * "set notify -> notify = 1"
+    * "unset send_notify -> send_notify = 1"
     */
-    public function delAction()
+    public function delSend()
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $id = $this->getPostQueryStringParams("id");
         if (strtoupper($requestMethod) == 'POST') {
             $userModel = new DomainModel();
-            $userModel->setNotify($id);  
-        } else {
-            $strErrorDesc = 'Method not supported';
-            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
-        }
- 
-        // send output
-        if (!$strErrorDesc) {
-            $this->sendOutput(
-                $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-            );
-        } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-                array('Content-Type: application/json', $strErrorHeader)
-            );
-        }
-    } 
-    /**
-    * "set send_notify -> send_notify = 1"
-    */
-    public function postsendAction()
-    {
-        $strErrorDesc = '';
-        $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $id = $this->getPostQueryStringParams("id");
-        if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new DomainModel();
-            $userModel->setSend($id);  
-        } else {
-            $strErrorDesc = 'Method not supported';
-            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
-        }
- 
-        // send output
-        if (!$strErrorDesc) {
-            $this->sendOutput(
-                $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-            );
-        } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-                array('Content-Type: application/json', $strErrorHeader)
-            );
-        }
-    } 
-    /**
-    * "unset send_notify -> send_notify = 0"
-    */
-    public function delsendAction()
-    {
-        $strErrorDesc = '';
-        $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $id = $this->getPostQueryStringParams("id");
-        if (strtoupper($requestMethod) == 'POST') {
-            $userModel = new DomainModel();
-            $userModel->unsetSend($id);  
+            $userModel->delSend($id);            
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
@@ -215,7 +163,9 @@ class DomainController extends BaseController
         $http_code = $this->getPostQueryStringParams("http_code");
         if (strtoupper($requestMethod) == 'POST') {
             $userModel = new DomainModel();
+	    print("cheguei no unset\n");
             $userModel->unsetError($url, $http_code, $status);  
+	    print("User Model: " . $userModel);
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';

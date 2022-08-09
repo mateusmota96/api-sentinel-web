@@ -14,17 +14,17 @@ require PROJECT_ROOT_PATH . "/Controller/Api/DomainController.php";
 
 
 # Allowed ips
-if (proxy_reverse == True) {
-	$IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-} elseif (proxy_reverse == False){
-	$IP = $_SERVER['REMOTE_ADDR'];
-}
+#if (proxy_reverse == True) {
+#$IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+#} elseif (proxy_reverse == False){
+#}
+
+$IP = $_SERVER['REMOTE_ADDR'];
 if (!in_array($IP, allowed_ips)){
     header("HTTP/1.1 418 I'm a Teapot");
     require_once PROJECT_ROOT_PATH . "/Model/Error418.php";
     exit();
 }
-
 
 if (in_array($uri[1], supported_api)){
     if ($uri[1] == 'error'){
